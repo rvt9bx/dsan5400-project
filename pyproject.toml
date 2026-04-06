@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "recipe_simplifier"
+version = "0.0.1"
+description = "Simplifies Recipe Text"
+readme = "README.md"
+requires-python = ">=3.6"
+authors = [
+    { name = "Eleanor Byrd", email = "eb1481@georgetown.edu" }, 
+    { name = "Maura Mann", email = "mm5514@georgetown.edu" },
+    { name = "Nkemdibe Okweye", email = "no252@georgetown.edu" }
+]
+keywords = ["recipe", "text", "simplifier"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "flake8", "autopep8"]
+
+[tool.setuptools.packages.find]
+where = ["."]

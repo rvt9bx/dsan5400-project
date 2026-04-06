@@ -1,16 +1,26 @@
-
-from urllib.request import urlopen
+import cloudscraper
 from recipe_scrapers import scrape_html
 
-def parse_url():
+def parse_url(url):
+    '''function to take in a recipe url as a string and return the title, ingredient list, and instruction list '''
     
-    url = "https://www.allrecipes.com/lazy-girl-marinara-recipe-11933446"
-    html = urlopen(url).read().decode("utf-8")  # retrieves the recipe webpage HTML
-    # scraper = scrape_html(html, org_url=url)
+    # get html
+    html_scraper = cloudscraper.create_scraper()
+    html = html_scraper.get(url).text
 
-    # # Extract recipe information
-    # scraper.title()
-    # scraper.instructions()
-    # scraper.links()
-    # scraper.to_json()
-    # print(scraper.to_json())
+    # scrape recipe
+    recipe_scraper = scrape_html(html, org_url=url)
+
+    # get title, ingredients, instructions 
+    title = recipe_scraper.title()
+    ingredients = recipe_scraper.ingredients()
+    instructions = recipe_scraper.instructions()
+    return title, ingredients, instructions
+
+    # print("TITLE:", recipe_scraper.title())
+    # print("\nINGREDIENTS:")
+    # for i in recipe_scraper.ingredients():
+    #     print("-", i)
+
+    # print("\nINSTRUCTIONS:")
+    # print(recipe_scraper.instructions())
