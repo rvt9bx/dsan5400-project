@@ -40,11 +40,11 @@ class RecipeSummarizationEvaluator:
         original = modelresults['original']
         simplified = modelresults['simplified']
 
-        original_std = standardize_text(original)
-        simplified_std = standardize_text(simplified)
+        #original_std = standardize_text(original)
+        #simplified_std = standardize_text(simplified)
 
-        embedding_original = self.model.encode(original_std, convert_to_tensor=True)
-        embedding_simplified = self.model.encode(simplified_std, convert_to_tensor=True)
+        embedding_original = self.model.encode(original, convert_to_tensor=True)
+        embedding_simplified = self.model.encode(simplified, convert_to_tensor=True)
 
         similarity_score = util.cos_sim(embedding_original, embedding_simplified).item()
 
@@ -62,11 +62,11 @@ class RecipeSummarizationEvaluator:
         original = modelresults['original']
         simplified = modelresults['simplified']
 
-        original_std = standardize_text(original)
-        simplified_std = standardize_text(simplified)
+        #original_std = standardize_text(original)
+        #simplified_std = standardize_text(simplified)
 
-        original_word_count = len(original_std.split())
-        simplified_word_count = len(simplified_std.split())
+        original_word_count = len(original.split())
+        simplified_word_count = len(simplified.split())
 
         if original_word_count == 0:
             return 0.0
@@ -84,11 +84,11 @@ class RecipeSummarizationEvaluator:
         original = modelresults['original']
         simplified = modelresults['simplified']
 
-        original_std = standardize_text(original)
-        simplified_std = standardize_text(simplified)
+        #original_std = standardize_text(original)
+        #simplified_std = standardize_text(simplified)
 
-        readability_original = textstat.flesch_kincaid_grade(original_std)
-        readability_simplified = textstat.flesch_kincaid_grade(simplified_std)
+        readability_original = textstat.flesch_kincaid_grade(original)
+        readability_simplified = textstat.flesch_kincaid_grade(simplified)
 
         return readability_original, readability_simplified
     

@@ -1,3 +1,4 @@
 data/
 recipe_simplifier.egg-info/
 recipe_simplifier/__pycache__/
+__pycache__
