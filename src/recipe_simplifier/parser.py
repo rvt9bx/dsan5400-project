@@ -1,6 +1,7 @@
 import cloudscraper
 from recipe_scrapers import scrape_html
 
+
 def parse_url(url):
     '''function to take in a recipe url as a string and return the title, ingredient list, and instruction list '''
     

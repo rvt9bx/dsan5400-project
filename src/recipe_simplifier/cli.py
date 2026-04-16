@@ -1,4 +1,4 @@
-# python bin/main.py -u recipe_url
+# src/recipe_simplifier/cli.py
 
 # import packages 
 import argparse
@@ -16,7 +16,8 @@ def parse_args():
 def main():
     '''main function to run on command or when script is run'''
     parse_args()
-    parse_url(args.url)
+    print("RUNNING!!")
+    # parse_url(args.url)
 
 # main code 
 if __name__ == "__main__":
