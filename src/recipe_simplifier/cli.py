@@ -9,8 +9,8 @@ def parse_args():
     global args 
     parser = argparse.ArgumentParser(description="Simplifies Recipe Text")
     parser.add_argument("-u", "--url", required=True, help="recipe url")
-    parser.add_argument("-p", "--print", required=False, help="print results to terminal")
-    parser.add_argument("-d", "--display", required=False, help="open browser to display results as html")
+    parser.add_argument("-p", "--print", action="store_true", help="print results to terminal")
+    parser.add_argument("-d", "--display", action="store_true", help="open browser to display results as html")
     args = parser.parse_args()
 
 # main function
@@ -23,10 +23,14 @@ def main():
 
     # run summarizer 
     summarized_instructions = summarizer(original_recipe.instructions)
-    # print(summarized_instructions)
     summarized_recipe = Recipe(original_recipe.title, original_recipe.ingredients, summarized_instructions)
+
     # print or display 
-    summarized_recipe.print()
+    if args.print:
+        summarized_recipe.print()
+    if args.display:
+        summarized_recipe.display()
+
     # eval 
 
 # main code 
