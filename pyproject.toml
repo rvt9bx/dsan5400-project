@@ -11,6 +11,7 @@ authors = [
 requires-python = ">=3.11"
 dependencies = [
     "cloudscraper>=1.2.71",
+    "matplotlib>=3.10.8",
     "multiextractivesummarizer>=0.2.3",
     "nltk>=3.9.4",
     "recipe-scrapers>=15.11.0",

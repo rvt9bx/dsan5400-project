@@ -15,11 +15,17 @@ def parse_args():
 def main():
     '''main function to run on command or when script is run'''
     parse_args()
+
+    # get original recipe 
     original_recipe = parse_url(args.url)
+
     # run summarizer 
-    summarized_recipe = Recipe(original_recipe.title, original_recipe.ingredients, )
-    # print or display 
-    summarized_recipe.print()
+    instructions_string = "\n".join(original_recipe.instructions)
+    summarized_instructions = summarizer(instructions_string)
+    print(summarized_instructions)
+    # summarized_recipe = Recipe(original_recipe.title, original_recipe.ingredients, summarized_instructions)
+    # # print or display 
+    # summarized_recipe.print()
     # eval 
 
 # main code 
