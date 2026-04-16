@@ -5,9 +5,9 @@ import random
 random.seed(12)
 
 # Train/Test Split
-with open("summarizer/data/full_dataset.csv", "r", newline="") as input,\
-        open("summarizer/data/train_dataset.csv", "w", newline="") as train_output,\
-        open("summarizer/data/test_dataset.csv", "w", newline="") as test_output:
+with open("../data/full_dataset.csv", "r", newline="") as input,\
+        open("../data/train_dataset.csv", "w", newline="") as train_output,\
+        open("../data/test_dataset.csv", "w", newline="") as test_output:
             
             reader = csv.reader(input)
             train_writer = csv.writer(train_output)
@@ -27,9 +27,9 @@ with open("summarizer/data/full_dataset.csv", "r", newline="") as input,\
 random.seed(32)
 
 # Train/Validation Split
-with open("summarizer/data/train_dataset.csv", "r", newline="") as input, \
-     open("summarizer/data/train_split.csv", "w", newline="") as train_output, \
-     open("summarizer/data/val_dataset.csv", "w", newline="") as val_output:
+with open("../data/train_dataset.csv", "r", newline="") as input, \
+     open("../data/train_split.csv", "w", newline="") as train_output, \
+     open("../data/val_dataset.csv", "w", newline="") as val_output:
 
     reader = csv.reader(input)
     train_writer = csv.writer(train_output)
@@ -49,9 +49,9 @@ with open("summarizer/data/train_dataset.csv", "r", newline="") as input, \
 random.seed(42)
 
 # Subset Test Set
-with open("summarizer/data/test_dataset.csv", "r", newline="") as input, \
-     open("summarizer/data/test_split.csv", "w", newline="") as test_output, \
-     open("summarizer/data/testsub_dataset.csv", "w", newline="") as sub_output:
+with open("../data/test_dataset.csv", "r", newline="") as input, \
+     open("../data/test_split.csv", "w", newline="") as test_output, \
+     open("../data/testsub_dataset.csv", "w", newline="") as sub_output:
 
     reader = csv.reader(input)
     test_writer = csv.writer(test_output)

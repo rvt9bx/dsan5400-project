@@ -5,7 +5,6 @@ import textstat
 from sentence_transformers import SentenceTransformer, util
 
 
-
 def standardize_text(func):
     def wrapper(text):
         if not isinstance(text, str):
