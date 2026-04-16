@@ -7,7 +7,7 @@ class Recipe:
         """ add docstring """
         self.title = title
         self.ingredients = ingredients 
-        self.instructions = instructions.splitlines()
+        self.instructions = instructions
     
     def print(self):
         """ add docstring """
@@ -16,8 +16,12 @@ class Recipe:
         for i in self.ingredients:
             print("-", i)
         print("\nINSTRUCTIONS:")
-        for i, step in enumerate(self.instructions):
-            print(f"{i+1}. {step}")
+        if "\n" in self.instructions:
+            for i, step in enumerate(self.instructions.splitlines()):
+                print(f"{i+1}. {step}")
+        else:
+            for i, step in enumerate(self.instructions.split('. ')):
+                print(f"{i+1}. {step}")
     
     def display(self):
         """ add docstring """
