@@ -7,12 +7,14 @@ from sentence_transformers import SentenceTransformer, util
 
 
 def standardize_text(func):
-    def wrapper(text):
-        if not isinstance(text, str):
-            return ""
-        text =  ' '.join(text.split())
-        result = func(text)
-        return result
+    def wrapper(*args, **kwargs):
+        # args[0] is self, args[1] is modelresults
+        modelresults = args[1]
+        if isinstance(modelresults.get('original'), str):
+            modelresults['original'] = ' '.join(modelresults['original'].split())
+        if isinstance(modelresults.get('simplified'), str):
+            modelresults['simplified'] = ' '.join(modelresults['simplified'].split())
+        return func(*args, **kwargs)
     return wrapper
 
 
@@ -28,6 +30,8 @@ class RecipeSummarizationEvaluator:
 
         self.model = SentenceTransformer('all-MiniLM-L6-v2')
 
+
+    @standardize_text
     def compute_semantic_similarity(self, modelresults):
         """
         Compute cosine similarity between the original and simplified texts.
@@ -50,6 +54,7 @@ class RecipeSummarizationEvaluator:
 
         return similarity_score
     
+    @standardize_text
     def compute_compression_ratio(self, modelresults):
         """
         Compute the word-count ratio of simplified text to original text.
@@ -73,6 +78,7 @@ class RecipeSummarizationEvaluator:
 
         return simplified_word_count / original_word_count
     
+    @standardize_text
     def compute_readability(self, modelresults):
         """
         Compute Flesch-Kincaid Grade Level for both original and simplified texts.
@@ -107,16 +113,6 @@ class RecipeSummarizationEvaluator:
             >= 0.50  Moderate
             <  0.50  Weak
 
-        Parameters
-        ----------
-        pairs : list of dict
-            Each dict has keys 'original' and 'simplified', each containing a string of text.
-
-        Returns
-        -------
-        list of dict
-            One result dict per pair with keys: similarity, compression, readability_original,
-            readability_simplified, readability_improvement, overall_score, rating.
         """
         results = []
         for i, pair in enumerate(pairs):
