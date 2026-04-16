@@ -1,8 +1,7 @@
-# src/recipe_simplifier/cli.py
-
-# import packages 
 import argparse
 from recipe_simplifier.parser import parse_url
+from recipe_simplifier.recipe import Recipe
+from recipe_simplifier.summarizer import summarizer
 
 # add command line arguments
 def parse_args():
@@ -16,8 +15,12 @@ def parse_args():
 def main():
     '''main function to run on command or when script is run'''
     parse_args()
-    print("RUNNING!!")
-    # parse_url(args.url)
+    original_recipe = parse_url(args.url)
+    # run summarizer 
+    summarized_recipe = Recipe(original_recipe.title, original_recipe.ingredients, )
+    # print or display 
+    summarized_recipe.print()
+    # eval 
 
 # main code 
 if __name__ == "__main__":
