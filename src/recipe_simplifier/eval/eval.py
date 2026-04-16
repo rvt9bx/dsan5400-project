@@ -60,7 +60,6 @@ class RecipeSummarizationEvaluator:
 
         A ratio below 1.0 means the simplified text is shorter. A ratio of 0.5
         means the simplified text is half the length of the original.
-
     
         """
         original = modelresults['original']
@@ -167,8 +166,11 @@ if __name__ == "__main__":
     #     'original': "Preheat the oven to 350 degrees. Mix flour, sugar, and eggs. Bake for 30 minutes.",
     #     'simplified': "Set oven to 350°F. Combine flour, sugar, and eggs. Bake for 30 mins."
     # }
-    
-    # evaluation_results = evaluator.evaluate_simplification(modelresults)
+
+    # evaluator.evaluate_simplification([modelresults])
+
+
+    # uv run python eval.py
 
         
 
