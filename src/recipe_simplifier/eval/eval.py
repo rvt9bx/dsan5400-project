@@ -5,7 +5,6 @@ import textstat
 from sentence_transformers import SentenceTransformer, util
 
 
-
 def standardize_text(func):
     def wrapper(*args, **kwargs):
         # args[0] is self, args[1] is modelresults

@@ -1,5 +1,5 @@
 import csv
-from summarizer import summarizer
+from recipe_simplifier.summarizer import summarizer
 import ast
 
 # CSV Iterator Function
