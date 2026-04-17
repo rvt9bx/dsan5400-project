@@ -1,96 +1,59 @@
-import tempfile
-import webbrowser
-from pathlib import Path
-import shutil
-
-class Recipe:
-    """ add docstring """
-
-    def __init__(self, title, ingredients, instructions):
-        """ add docstring """
-        self.title = title
-        self.ingredients = ingredients 
-        self.instructions = instructions
-    
-    def print(self):
-        """ add docstring """
-        print(self.title.title())
-        print("\nINGREDIENTS:")
-        for i in self.ingredients:
-            print("-", i)
-        print("\nINSTRUCTIONS:")
-        if "\n" in self.instructions:
-            for i, step in enumerate(self.instructions.splitlines()):
-                print(f"{i+1}. {step}")
-        else:
-            for i, step in enumerate(self.instructions.split('. ')):
-                print(f"{i+1}. {step}")
-    
-    def display(self, save_path=None):
-        """ add docstring """
-        
-        # separate out instructions 
-        if "\n" in self.instructions:
-            instructions = self.instructions.splitlines()
-        else:
-            instructions = self.instructions.split('. ')
-
-        html = f"""<!DOCTYPE html>
+<!DOCTYPE html>
         <html lang="en">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>{self.title}</title>
+            <title>Butternut Squash Mac and Cheese</title>
             <style>
                 @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=Inter:wght@400;500&display=swap');
 
-                *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
+                *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-                body {{
+                body {
                     font-family: 'Inter', sans-serif;
                     background: #e6e8ff;
                     color: #2c2c2a;
                     min-height: 100vh;
                     padding: 32px clamp(24px, 5vw, 64px) 40px;
-                }}
+                }
 
-                .card {{
+                .card {
                     background: #fff;
                     width: min(95vw, 1100px);
                     margin: 0 auto;
                     border-radius: 16px;
                     overflow: hidden;
                     box-shadow: 0 2px 24px rgba(98,102,210,0.10);
-                }}
+                }
 
-                .header {{
+                .header {
                     background: #e11444;
                     padding: 40px clamp(24px, 5vw, 64px) 32px;
                     text-align: center;
-                }}
+                }
 
-                .header h1 {{
+                .header h1 {
                     font-family: 'Lora', Georgia, serif;
                     font-size: 2rem;
                     font-weight: 600;
                     color: #ffffff;
                     letter-spacing: 0.01em;
                     line-height: 1.3;
-                }}
+                }
 
-                .body {{
+                .body {
                     padding: 40px 48px 48px;
-                }}
+                }
 
-                .section {{
+                .section {
                     margin-bottom: 36px;
-                }}
+                }
 
-                .section:last-child {{
+                .section:last-child {
                     margin-bottom: 0;
-                }}
+                }
 
-                h2 {{
+                h2 {
                     font-family: 'Lora', Georgia, serif;
                     font-size: 1.1rem;
                     font-weight: 600;
@@ -100,16 +63,16 @@ class Recipe:
                     margin-bottom: 16px;
                     padding-bottom: 10px;
                     border-bottom: 1.5px solid #c7caee;
-                }}
+                }
 
-                ul {{
+                ul {
                     list-style: none;
                     display: grid;
                     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
                     gap: 8px;
-                }}
+                }
 
-                ul li {{
+                ul li {
                     background: #f0f1ff;
                     border: 1px solid #c7caee;
                     border-radius: 8px;
@@ -117,17 +80,17 @@ class Recipe:
                     font-size: 0.9rem;
                     color: #2c2c3e;
                     line-height: 1.4;
-                }}
+                }
 
-                ol {{
+                ol {
                     list-style: none;
                     counter-reset: steps;
                     display: flex;
                     flex-direction: column;
                     gap: 12px;
-                }}
+                }
 
-                ol li {{
+                ol li {
                     counter-increment: steps;
                     display: flex;
                     gap: 16px;
@@ -135,9 +98,9 @@ class Recipe:
                     font-size: 0.95rem;
                     line-height: 1.65;
                     color: #2c2c3e;
-                }}
+                }
 
-                ol li::before {{
+                ol li::before {
                     content: counter(steps);
                     min-width: 28px;
                     height: 28px;
@@ -151,49 +114,28 @@ class Recipe:
                     font-weight: 500;
                     flex-shrink: 0;
                     margin-top: 1px;
-                }}
+                }
             </style>
         </head>
         <body>
             <div class="card">
                 <div class="header">
-                    <h1>{self.title}</h1>
+                    <h1>Butternut Squash Mac and Cheese</h1>
                 </div>
                 <div class="body">
                     <div class="section">
                         <h2>Ingredients</h2>
                         <ul>
-                            {''.join(f'<li>{i}</li>' for i in self.ingredients)}
+                            <li>1 medium to large butternut squash (1.5 pounds or larger), halved</li><li>1 teaspoon extra virgin olive oil</li><li>2 tablespoons unsalted butter</li><li>1 teaspoon garlic powder</li><li>1 teaspoon onion powder</li><li>1 pound short-cut pasta (pipe regate, macaroni noodles, casarecce, cavatelli, fusilli)</li><li>5 cups water</li><li>1 teaspoon fine salt, to taste</li><li>4 ounces cream cheese, cubed</li><li>8 ounces shredded sharp cheddar cheese</li><li>½ cup (2 ounces) finely grated Parmesan cheese, plus more for serving</li>
                         </ul>
                     </div>
                     <div class="section">
                         <h2>Instructions</h2>
                         <ol>
-                            {''.join(f'<li>{step}</li>' for step in instructions)}
+                            <li>Line a large rimmed baking sheet with parchment paper for easy cleanup</li><li>Bake until the squash flesh is easily pierced through with a fork about 40 to 60 minutes</li><li>Once its cool enough to handle peel off the skin and discard it</li><li>Use a potato masher to mash up the squashdont worry about getting it perfectly smooth</li><li>Add the garlic and onion powder and cook for 2 to 4 minutes stirring often until the butter is fragrant and you see little brown flecks forming in the pan</li><li>Add the dry pasta and gently toss to coat it in butter</li><li>Add 2 cups of the mashed butternut squash</li><li>Cover the pot and bring it to a boil over high heat</li><li>Do not drain the water</li><li>Turn down the heat as necessary to avoid scorching but maintain a steady simmer</li><li>Add the cheddar and Parmesan and stir until the mixture is melted and creamy</li><li>Season with salt to taste I usually add ¼ teaspoon more</li><li>Leftovers keep well covered and refrigerated for up to 5 days.</li>
                         </ol>
                     </div>
                 </div>
             </div>
         </body>
-        </html>"""
-
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".html") as f:
-            Path(f.name).write_text(html, encoding="utf-8")
-            temp_path = Path(f.name)
-
-        if save_path:
-            dest = Path(save_path).expanduser().resolve()
-            dest.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy(temp_path, dest)
-            temp_path.unlink(missing_ok=True)  # don't need the temp anymore
-            print(f"\nSaved to {dest}")
-            print(f"\nOpening at file://{dest}")
-            webbrowser.open(f"file://{dest}")
-            input("\nPress Enter to exit...")
-        else:
-            print(f"\nOpening at file://{temp_path}")
-            webbrowser.open(f"file://{temp_path}")
-            try:
-                input("\nPress Enter to exit...")
-            finally:
-                temp_path.unlink(missing_ok=True)
+        </html>
