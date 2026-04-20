@@ -27,6 +27,7 @@ def parse_args():
     global args 
     parser = argparse.ArgumentParser(description="Simplifies Recipe Text")
     parser.add_argument("-u", "--url", required=True, help="recipe url")
+    parser.add_argument("-og", "--original", action="store_true", help="print/display original recipe, not summarization")
     parser.add_argument("-p", "--print", action="store_true", help="print results to terminal")
     parser.add_argument("-d", "--display", action="store_true", help="open browser to display results as html")
     parser.add_argument("-s", "--save", required=False, help="file path to save html")
@@ -42,23 +43,29 @@ def main():
     original_recipe = parse_url(args.url)
 
     # run summarizer 
-    summarized_instructions = summarizer(original_recipe.instructions)
-    summarized_recipe = Recipe(original_recipe.title, original_recipe.ingredients, summarized_instructions)
+    if args.original:
+        recipe = original_recipe
+    else:
+        summarized_instructions = summarizer(original_recipe.instructions)
+        recipe = Recipe(original_recipe.title, original_recipe.ingredients, summarized_instructions)
 
     # print or display / save 
     if args.print:
-        summarized_recipe.print()
+        recipe.print()
     if args.display:
-        summarized_recipe.display(args.save)
+        recipe.display(args.save)
 
     # eval 
     if args.evaluate:
-        evaluator = eval.RecipeSummarizationEvaluator()
-        modelresults = {'original': original_recipe.instructions,
-                        'simplified': summarized_recipe.instructions
-                        }
+        if args.original:
+            raise 
+        else:
+            evaluator = eval.RecipeSummarizationEvaluator()
+            modelresults = {'original': original_recipe.instructions,
+                            'simplified': recipe.instructions
+                            }
 
-        evaluator.evaluate_simplification([modelresults])
+            evaluator.evaluate_simplification([modelresults])
 
 # main code 
 if __name__ == "__main__":
