@@ -2,6 +2,7 @@ import tempfile
 import webbrowser
 from pathlib import Path
 import shutil
+from recipe_simplifier.utils import open_in_browser
 
 class Recipe:
     """ add docstring """
@@ -192,7 +193,8 @@ class Recipe:
             input("\nPress Enter to exit...")
         else:
             print(f"\nOpening at file://{temp_path}")
-            webbrowser.open(f"file://{temp_path}")
+            # webbrowser.open(f"file://{temp_path}")
+            open_in_browser(temp_path)
             try:
                 input("\nPress Enter to exit...")
             finally:
