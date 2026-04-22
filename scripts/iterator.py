@@ -1,5 +1,5 @@
 import csv
-from recipe_simplifier.summarizer import summarizer
+from src.recipe_simplifier.summarizer import summarizer
 import ast
 
 # CSV Iterator Function
@@ -64,3 +64,5 @@ def comparison(file_path):
     print("More Readable Recipes: " + str(more_readable))
     print("Less Readable Recipes: " + str(less_readable))
     print("Ratio of More to Less: " + str(more_readable/less_readable))
+    ratio = more_readable/less_readable
+    return ratio
