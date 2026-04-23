@@ -190,7 +190,7 @@ class Recipe:
             print(f"\nSaved to {dest}")
             print(f"\nOpening at file://{dest}")
             # webbrowser.open(f"file://{temp_path}")
-            open_in_browser(temp_path)
+            open_in_browser(dest)
             input("\nPress Enter to exit...")
         else:
             print(f"\nOpening at file://{temp_path}")
