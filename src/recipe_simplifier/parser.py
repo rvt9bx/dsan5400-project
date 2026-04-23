@@ -3,6 +3,8 @@ from recipe_scrapers import scrape_html
 from recipe_simplifier.recipe import Recipe
 import logging
 
+logger = logging.getLogger(__name__)
+
 def parse_url(url):
     '''function to take in a recipe url as a string and return the title, ingredient list, and instruction list '''
     
@@ -14,6 +16,7 @@ def parse_url(url):
     try:
         recipe_scraper = scrape_html(html, org_url=url)
     except Exception as e:
+        print(f"Recipe scraping failed, see logs/simplifier.logs for traceback.")
         logging.error(f"Recipe scraping failed: {e}")
         raise
 

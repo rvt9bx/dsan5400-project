@@ -2,6 +2,8 @@ from MultiExtractiveSummarizer import MultiExtractiveSummarizer
 import re
 import logging
 
+logging = logging.getLogger(__name__)
+
 # Model Function
 _summarizer_model = None
 
@@ -23,5 +25,7 @@ def summarizer(text, ratio=0.5):
     try:
         return model.summarize(clean_text, ratio=ratio)
     except Exception as e:
+        print("Summarization failed, returning original text. See logs/simplifier.logs for traceback.")
         logging.error(f"Summarization failed: {e}")
+        logging.info("Returning original text as fallback")
         return clean_text

@@ -1,4 +1,4 @@
-# hide / log warnings
+# log warnings
 import sys
 import os
 
@@ -9,7 +9,7 @@ os.environ["HF_HUB_DISABLE_IMPLICIT_TOKEN"] = "1"
 
 import logging
 logging.basicConfig(
-    level=logging.WARNING,
+    level=logging.DEBUG,
     stream=_log_file,
     format="%(asctime)s %(name)s %(levelname)s %(message)s",
 )
@@ -41,12 +41,16 @@ def main():
 
     # get original recipe 
     original_recipe = parse_url(args.url)
+    logging.info("Parsed recipe: '%s' from %s", original_recipe.title, args.url)
 
     # run summarizer 
     if args.original:
         recipe = original_recipe
+        logging.info("Using original recipe (no summarization)")
     else:
+        logging.info("Running summarizer...")
         summarized_instructions = summarizer(original_recipe.instructions)
+        logging.info("Summarization complete")
         recipe = Recipe(original_recipe.title, original_recipe.ingredients, summarized_instructions)
 
     # print or display / save 
@@ -58,14 +62,22 @@ def main():
     # eval 
     if args.evaluate:
         if args.original:
-            raise 
+            logging.error("--evaluate cannot be used with --original")
+            raise ValueError("--evaluate requires a summarized recipe; remove --original")
         else:
-            evaluator = eval.RecipeSummarizationEvaluator()
-            modelresults = {'original': original_recipe.instructions,
-                            'simplified': recipe.instructions
-                            }
+            logging.info("Running evaluation...")
+            try:
+                evaluator = eval.RecipeSummarizationEvaluator()
+                modelresults = {'original': original_recipe.instructions,
+                                'simplified': recipe.instructions
+                                }
 
-            evaluator.evaluate_simplification([modelresults])
+                evaluator.evaluate_simplification([modelresults])
+                logging.info("Evaluation complete")
+            except Exception as e:
+                print("Evaluation failed, see logs/simplifier.logs for traceback.")
+                logging.error(f"Evaluation failed: {e}")
+            
 
 # main code 
 if __name__ == "__main__":

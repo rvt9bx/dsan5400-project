@@ -186,15 +186,13 @@ class Recipe:
             dest = Path(save_path).expanduser().resolve()
             dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy(temp_path, dest)
-            temp_path.unlink(missing_ok=True)  # don't need the temp anymore
+            temp_path.unlink(missing_ok=True)
             print(f"\nSaved to {dest}")
             print(f"\nOpening at file://{dest}")
-            # webbrowser.open(f"file://{temp_path}")
             open_in_browser(dest)
             input("\nPress Enter to exit...")
         else:
             print(f"\nOpening at file://{temp_path}")
-            # webbrowser.open(f"file://{temp_path}")
             open_in_browser(temp_path)
             try:
                 input("\nPress Enter to exit...")

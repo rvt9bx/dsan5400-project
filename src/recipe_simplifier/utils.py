@@ -1,8 +1,11 @@
+import logging 
 import os
 import platform
 import subprocess
 import webbrowser
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
 
 def open_in_browser(path: Path):
     """
@@ -18,6 +21,8 @@ def open_in_browser(path: Path):
     # Detect WSL
     is_wsl = "microsoft" in release or "wsl" in release
 
+    logger.debug("Opening in browser — path: %s, system: %s, WSL: %s", path, system, is_wsl)
+
     try:
         if is_wsl:
             # Use Windows browser via explorer.exe
@@ -30,6 +35,7 @@ def open_in_browser(path: Path):
         else:
             # Linux
             subprocess.run(["xdg-open", url], check=False)
-    except Exception:
-        # Fallback (last resort)
+        logger.info("Successfully opened: %s", url)
+    except Exception as e:
+        logger.warning("Primary browser open failed (%s), falling back to webbrowser module", e)
         webbrowser.open(url)
