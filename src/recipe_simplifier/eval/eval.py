@@ -1,6 +1,6 @@
-import ssl                                                                                                     
+import ssl
 import nltk
-import os  
+import os
 import textstat
 from sentence_transformers import SentenceTransformer, util
 
@@ -9,26 +9,26 @@ def standardize_text(func):
     def wrapper(*args, **kwargs):
         # args[0] is self, args[1] is modelresults
         modelresults = args[1]
-        if isinstance(modelresults.get('original'), str):
-            modelresults['original'] = ' '.join(modelresults['original'].split())
-        if isinstance(modelresults.get('simplified'), str):
-            modelresults['simplified'] = ' '.join(modelresults['simplified'].split())
+        if isinstance(modelresults.get("original"), str):
+            modelresults["original"] = " ".join(modelresults["original"].split())
+        if isinstance(modelresults.get("simplified"), str):
+            modelresults["simplified"] = " ".join(modelresults["simplified"].split())
         return func(*args, **kwargs)
+
     return wrapper
 
 
 class RecipeSummarizationEvaluator:
     """Evaluate simplified recipe text against the original text."""
-    
+
     def __init__(self):
         # Fix SSL certificate issue and download cmudict for readability scoring
         ssl._create_default_https_context = ssl._create_unverified_context
-        nltk_path = os.path.expanduser('~/nltk_data')
+        nltk_path = os.path.expanduser("~/nltk_data")
         os.makedirs(nltk_path, exist_ok=True)
-        nltk.download('cmudict', download_dir=nltk_path, quiet=True)
+        nltk.download("cmudict", download_dir=nltk_path, quiet=True)
 
-        self.model = SentenceTransformer('all-MiniLM-L6-v2')
-
+        self.model = SentenceTransformer("all-MiniLM-L6-v2")
 
     @standardize_text
     def compute_semantic_similarity(self, modelresults):
@@ -40,11 +40,11 @@ class RecipeSummarizationEvaluator:
         lower scores indicate semantic drift.
 
         """
-        original = modelresults['original']
-        simplified = modelresults['simplified']
+        original = modelresults["original"]
+        simplified = modelresults["simplified"]
 
-        #original_std = standardize_text(original)
-        #simplified_std = standardize_text(simplified)
+        # original_std = standardize_text(original)
+        # simplified_std = standardize_text(simplified)
 
         embedding_original = self.model.encode(original, convert_to_tensor=True)
         embedding_simplified = self.model.encode(simplified, convert_to_tensor=True)
@@ -52,7 +52,7 @@ class RecipeSummarizationEvaluator:
         similarity_score = util.cos_sim(embedding_original, embedding_simplified).item()
 
         return similarity_score
-    
+
     @standardize_text
     def compute_compression_ratio(self, modelresults):
         """
@@ -60,13 +60,12 @@ class RecipeSummarizationEvaluator:
 
         A ratio below 1.0 means the simplified text is shorter. A ratio of 0.5
         means the simplified text is half the length of the original.
-    
         """
-        original = modelresults['original']
-        simplified = modelresults['simplified']
+        original = modelresults["original"]
+        simplified = modelresults["simplified"]
 
-        #original_std = standardize_text(original)
-        #simplified_std = standardize_text(simplified)
+        # original_std = standardize_text(original)
+        # simplified_std = standardize_text(simplified)
 
         original_word_count = len(original.split())
         simplified_word_count = len(simplified.split())
@@ -75,7 +74,7 @@ class RecipeSummarizationEvaluator:
             return 0.0
 
         return simplified_word_count / original_word_count
-    
+
     @standardize_text
     def compute_readability(self, modelresults):
         """
@@ -83,19 +82,17 @@ class RecipeSummarizationEvaluator:
 
         A lower grade level indicates easier readability. Comparing the two scores
         shows whether simplification reduced the reading difficulty.
-
         """
-        original = modelresults['original']
-        simplified = modelresults['simplified']
+        original = modelresults["original"]
+        simplified = modelresults["simplified"]
 
-        #original_std = standardize_text(original)
-        #simplified_std = standardize_text(simplified)
+        # original_std = standardize_text(original)
+        # simplified_std = standardize_text(simplified)
 
         readability_original = textstat.flesch_kincaid_grade(original)
         readability_simplified = textstat.flesch_kincaid_grade(simplified)
 
         return readability_original, readability_simplified
-    
 
     def evaluate_simplification(self, pairs):
         """
@@ -144,23 +141,24 @@ class RecipeSummarizationEvaluator:
             print(f"  Rating:                   {rating}")
             print("=" * 40)
 
-            results.append({
-                "similarity": similarity,
-                "compression": compression,
-                "readability_original": readability_original,
-                "readability_simplified": readability_simplified,
-                "readability_improvement": readability_improvement,
-                "overall_score": overall_score,
-                "rating": rating
-            })
+            results.append(
+                {
+                    "similarity": similarity,
+                    "compression": compression,
+                    "readability_original": readability_original,
+                    "readability_simplified": readability_simplified,
+                    "readability_improvement": readability_improvement,
+                    "overall_score": overall_score,
+                    "rating": rating,
+                }
+            )
 
         return results
-    
 
 
 if __name__ == "__main__":
     evaluator = RecipeSummarizationEvaluator()
-    
+
     # # Example usage with dummy data
     # modelresults = {
     #     'original': "Preheat the oven to 350 degrees. Mix flour, sugar, and eggs. Bake for 30 minutes.",
@@ -169,8 +167,4 @@ if __name__ == "__main__":
 
     # evaluator.evaluate_simplification([modelresults])
 
-
     # uv run python eval.py
-
-        
-

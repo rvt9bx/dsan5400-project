@@ -1,0 +1,9 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.6
+    hooks:
+      - id: ruff
+        args: [--fix]
+        files: ^src/recipe_simplifier/
+      - id: ruff-format
+        files: ^src/recipe_simplifier/

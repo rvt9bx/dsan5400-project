@@ -1,30 +1,30 @@
-# log warnings
 import sys
 import os
+import logging
+import argparse
 
+# log warnings from model imports
 os.makedirs("logs", exist_ok=True)
 _log_file = open("logs/simplifier.log", "w")
 sys.stderr = _log_file
 os.environ["HF_HUB_DISABLE_IMPLICIT_TOKEN"] = "1"
-
-import logging
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,
     stream=_log_file,
     format="%(asctime)s %(name)s %(levelname)s %(message)s",
 )
 
 # import rest of packages
-import argparse
 from recipe_simplifier.parser import parse_url
 from recipe_simplifier.recipe import Recipe
 from recipe_simplifier.summarizer import summarizer
 from recipe_simplifier.eval import eval
 
+
 # add command line arguments
 def parse_args():
-    '''function to add command line arguments'''
-    global args 
+    """function to add command line arguments"""
+    global args
     parser = argparse.ArgumentParser(description="Simplifies Recipe Text")
     parser.add_argument("-u", "--url", required=True, help="recipe url")
     parser.add_argument("-og", "--original", action="store_true", help="print/display original recipe, not summarization")
@@ -34,16 +34,17 @@ def parse_args():
     parser.add_argument("-e", "--evaluate", action="store_true", help="evaluate the summarization")
     args = parser.parse_args()
 
+
 # main function
 def main():
-    '''main function to run on command or when script is run'''
+    """main function to run on command or when script is run"""
     parse_args()
 
-    # get original recipe 
+    # get original recipe
     original_recipe = parse_url(args.url)
     logging.info("Parsed recipe: '%s' from %s", original_recipe.title, args.url)
 
-    # run summarizer 
+    # run summarizer
     if args.original:
         recipe = original_recipe
         logging.info("Using original recipe (no summarization)")
@@ -53,13 +54,13 @@ def main():
         logging.info("Summarization complete")
         recipe = Recipe(original_recipe.title, original_recipe.ingredients, summarized_instructions)
 
-    # print or display / save 
+    # print or display / save
     if args.print:
         recipe.print()
     if args.display:
         recipe.display(args.save)
 
-    # eval 
+    # eval
     if args.evaluate:
         if args.original:
             logging.error("--evaluate cannot be used with --original")
@@ -68,17 +69,15 @@ def main():
             logging.info("Running evaluation...")
             try:
                 evaluator = eval.RecipeSummarizationEvaluator()
-                modelresults = {'original': original_recipe.instructions,
-                                'simplified': recipe.instructions
-                                }
+                modelresults = {"original": original_recipe.instructions, "simplified": recipe.instructions}
 
                 evaluator.evaluate_simplification([modelresults])
                 logging.info("Evaluation complete")
             except Exception as e:
                 print("Evaluation failed, see logs/simplifier.logs for traceback.")
                 logging.error(f"Evaluation failed: {e}")
-            
 
-# main code 
+
+# main code
 if __name__ == "__main__":
     main()

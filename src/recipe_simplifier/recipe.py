@@ -1,20 +1,20 @@
 import tempfile
-import webbrowser
 from pathlib import Path
 import shutil
 from recipe_simplifier.utils import open_in_browser
 
+
 class Recipe:
-    """ add docstring """
+    """add docstring"""
 
     def __init__(self, title, ingredients, instructions):
-        """ add docstring """
+        """add docstring"""
         self.title = title
-        self.ingredients = ingredients 
+        self.ingredients = ingredients
         self.instructions = instructions
-    
+
     def print(self):
-        """ add docstring """
+        """add docstring"""
         print(self.title.title())
         print("\nINGREDIENTS:")
         for i in self.ingredients:
@@ -22,19 +22,19 @@ class Recipe:
         print("\nINSTRUCTIONS:")
         if "\n" in self.instructions:
             for i, step in enumerate(self.instructions.splitlines()):
-                print(f"{i+1}. {step}")
+                print(f"{i + 1}. {step}")
         else:
-            for i, step in enumerate(self.instructions.split('. ')):
-                print(f"{i+1}. {step}")
-    
+            for i, step in enumerate(self.instructions.split(". ")):
+                print(f"{i + 1}. {step}")
+
     def display(self, save_path=None):
-        """ add docstring """
-        
-        # separate out instructions 
+        """add docstring"""
+
+        # separate out instructions
         if "\n" in self.instructions:
             instructions = self.instructions.splitlines()
         else:
-            instructions = self.instructions.split('. ')
+            instructions = self.instructions.split(". ")
 
         html = f"""<!DOCTYPE html>
         <html lang="en">
@@ -164,13 +164,13 @@ class Recipe:
                     <div class="section">
                         <h2>Ingredients</h2>
                         <ul>
-                            {''.join(f'<li>{i}</li>' for i in self.ingredients)}
+                            {"".join(f"<li>{i}</li>" for i in self.ingredients)}
                         </ul>
                     </div>
                     <div class="section">
                         <h2>Instructions</h2>
                         <ol>
-                            {''.join(f'<li>{step}</li>' for step in instructions)}
+                            {"".join(f"<li>{step}</li>" for step in instructions)}
                         </ol>
                     </div>
                 </div>

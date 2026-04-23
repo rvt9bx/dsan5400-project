@@ -1,4 +1,4 @@
-import logging 
+import logging
 import os
 import platform
 import subprocess
@@ -6,6 +6,7 @@ import webbrowser
 from pathlib import Path
 
 logger = logging.getLogger(__name__)
+
 
 def open_in_browser(path: Path):
     """
@@ -21,7 +22,7 @@ def open_in_browser(path: Path):
     # Detect WSL
     is_wsl = "microsoft" in release or "wsl" in release
 
-    logger.debug("Opening in browser — path: %s, system: %s, WSL: %s", path, system, is_wsl)
+    logger.info("Opening in browser — path: %s, system: %s, WSL: %s", path, system, is_wsl)
 
     try:
         if is_wsl:

@@ -28,5 +28,14 @@ build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
+    "pre-commit>=4.6.0",
     "pytest>=9.0.3",
+    "ruff>=0.15.11",
 ]
+
+[tool.ruff]
+line-length = 150
+
+[tool.ruff.lint]
+select = ["E", "F", "W"]
+ignore = ["E402"]  # E402 = module level import not at top of file, necessary for logging config before module import 
