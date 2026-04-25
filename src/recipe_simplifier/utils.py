@@ -9,9 +9,15 @@ logger = logging.getLogger(__name__)
 
 
 def open_in_browser(path: Path):
-    """
-    Open a local file in the default browser, cross-platform.
+    """Open a local file in the default browser, cross-platform.
+
     Works on Windows, macOS, Linux, and WSL.
+
+    Args:
+        path (Path): Path to the local file to open.
+
+    Returns:
+        None
     """
     path = Path(path).resolve()
     url = path.as_uri()

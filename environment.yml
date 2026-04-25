@@ -1,0 +1,17 @@
+name: dsan5400
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python>=3.11
+  - pip
+  - pip:
+    - cloudscraper>=1.2.71
+    - matplotlib>=3.10.8
+    - multiextractivesummarizer>=0.2.3
+    - nltk>=3.9.4
+    - recipe-scrapers>=15.11.0
+    - sentence-transformers>=5.4.1
+    - textstat>=0.7.13
+    - pytest>=9.0.3
+    - ruff>=0.15.11
