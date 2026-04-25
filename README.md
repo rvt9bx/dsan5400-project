@@ -118,6 +118,19 @@ INSTRUCTIONS:
 
 ---
 
+## Summarizer
+
+The summarizer uses the MultiExtractiveSummarizer extractive summarization model from the MultiExtractiveSummarizer python package.
+
+Parameters:
+1. **embedding_method** — sbert
+2. **summarization_method** — kmeans
+
+Hyperparameters:
+1. **ratio** — tuned to 0.5
+
+All together the summarizer model uses Sentence-BERT embeddings on the text, creates sentence clusters using k-means, and outputs around 0.5 of the original text in the summarization.
+
 ## Evaluation Metrics
 
 The evaluator scores simplifications on three dimensions:
