@@ -1,0 +1,114 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Recipe Simplifier Architecture">
+    <mxGraphModel dx="1422" dy="762" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0" background="#ffffff">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" style="fillColor=#ffffff;" />
+
+        <!-- User -->
+        <mxCell id="2" value="User" style="ellipse;whiteSpace=wrap;html=1;fillColor=#e11444;fontColor=#ffffff;strokeColor=#e11444;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="40" width="120" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- CLI -->
+        <mxCell id="3" value="cli.py&#xa;Entry point — parses flags,&#xa;orchestrates pipeline" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c6b9f1;strokeColor=#c6b9f1;fontColor=#2c2c3e;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="160" width="200" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow: User → CLI -->
+        <mxCell id="4" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#e11444;strokeWidth=2;fontColor=#333333;" edge="1" source="2" target="3" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4l" value="recipe URL" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=10;fontColor=#333333;" vertex="1" connectable="0" parent="4">
+          <mxGeometry x="-0.1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Parser -->
+        <mxCell id="5" value="parser.py&#xa;Scrapes URL with cloudscraper&#xa;+ recipe-scrapers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8a8af;strokeColor=#e8a8af;fontColor=#2c2c3e;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="310" width="200" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow: CLI → Parser -->
+        <mxCell id="7" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#c6b9f1;strokeWidth=2;fontColor=#333333;" edge="1" source="3" target="5" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="7l" value="URL" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=10;fontColor=#333333;" vertex="1" connectable="0" parent="7">
+          <mxGeometry x="-0.1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Recipe Object (original) -->
+        <mxCell id="9" value="recipe.py&#xa;Recipe(title, ingredients, instructions)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c6b9f1;strokeColor=#c6b9f1;fontColor=#2c2c3e;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="460" width="200" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow: Parser → Recipe -->
+        <mxCell id="10" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#e8a8af;strokeWidth=2;fontColor=#333333;" edge="1" source="5" target="9" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="10l" value="Recipe object" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=10;fontColor=#333333;" vertex="1" connectable="0" parent="10">
+          <mxGeometry x="-0.1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Summarizer -->
+        <mxCell id="6" value="summarizer.py&#xa;Extractive summarization&#xa;via SBERT + KMeans" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8a8af;strokeColor=#e8a8af;fontColor=#2c2c3e;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="750" y="460" width="200" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow: Recipe → Summarizer -->
+        <mxCell id="8" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#c6b9f1;strokeWidth=2;fontColor=#333333;" edge="1" source="9" target="6" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="8l" value=".instructions" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=10;fontColor=#333333;" vertex="1" connectable="0" parent="8">
+          <mxGeometry x="-0.1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Simplified Recipe -->
+        <mxCell id="19" value="recipe.py&#xa;Recipe(title, ingredients, simplified)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c6b9f1;strokeColor=#c6b9f1;fontColor=#2c2c3e;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="750" y="610" width="200" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow: Summarizer → Simplified Recipe -->
+        <mxCell id="20" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#e8a8af;strokeWidth=2;" edge="1" source="6" target="19" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="20l" value="simplified text" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=10;fontColor=#333333;" vertex="1" connectable="0" parent="20">
+          <mxGeometry x="-0.1" relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Print output -->
+        <mxCell id="12" value=".print()&#xa;Terminal output" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef7ba;strokeColor=#fce82d;fontColor=#2c2c3e;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="760" width="160" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Display output -->
+        <mxCell id="13" value=".display()&#xa;Styled HTML in browser" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef7ba;strokeColor=#fce82d;fontColor=#2c2c3e;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="750" y="760" width="180" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Evaluator -->
+        <mxCell id="14" value="eval.py&#xa;RecipeSummarizationEvaluator&#xa;Similarity · Compression · Readability" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef7ba;strokeColor=#fce82d;fontColor=#2c2c3e;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="960" y="760" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow: Simplified Recipe → Print -->
+        <mxCell id="15" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#c6b9f1;strokeWidth=2;" edge="1" source="19" target="12" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow: Simplified Recipe → Display -->
+        <mxCell id="16" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#c6b9f1;strokeWidth=2;" edge="1" source="19" target="13" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Arrow: Simplified Recipe → Evaluator -->
+        <mxCell id="17" style="edgeStyle=orthogonalEdgeStyle;strokeColor=#c6b9f1;strokeWidth=2;" edge="1" source="19" target="14" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="17l" value="optional (-e)" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;fontSize=10;fontColor=#333333;" vertex="1" connectable="0" parent="17">
+          <mxGeometry x="-0.1" relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

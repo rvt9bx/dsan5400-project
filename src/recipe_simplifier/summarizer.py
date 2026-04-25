@@ -9,6 +9,11 @@ _summarizer_model = None
 
 
 def get_summarizer():
+    """Return the singleton MultiExtractiveSummarizer instance, initializing it on first call.
+
+    Returns:
+        MultiExtractiveSummarizer: Loaded summarizer model using SBERT embeddings and KMeans clustering.
+    """
     global _summarizer_model
     if _summarizer_model is None:
         _summarizer_model = MultiExtractiveSummarizer(embedding_method="sbert", summarization_method="kmeans")
@@ -17,6 +22,18 @@ def get_summarizer():
 
 # Summarizer Function
 def summarizer(text, ratio=0.5):
+    """Simplify recipe directions text using extractive summarization.
+
+    Cleans the input text, then uses the MultiExtractiveSummarizer to select
+    the most important sentences. Falls back to the original text if summarization fails.
+
+    Args:
+        text (str): Raw recipe directions text to simplify.
+        ratio (float): Fraction of sentences to keep. Defaults to 0.5.
+
+    Returns:
+        str: Simplified directions text, or original text if summarization fails.
+    """
     model = get_summarizer()
 
     clean_text = re.sub(r"[^\w\s/.]", "", text)

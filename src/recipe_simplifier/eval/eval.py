@@ -6,7 +6,17 @@ from sentence_transformers import SentenceTransformer, util
 
 
 def standardize_text(func):
+    """Decorator that normalizes whitespace in 'original' and 'simplified' fields before evaluation."""
     def wrapper(*args, **kwargs):
+        """Normalize whitespace in modelresults before calling the wrapped function.
+
+        Args:
+            *args: Positional arguments where args[1] is the modelresults dict.
+            **kwargs: Keyword arguments passed through to the wrapped function.
+
+        Returns:
+            Result of the wrapped evaluation function.
+        """
         # args[0] is self, args[1] is modelresults
         modelresults = args[1]
         if isinstance(modelresults.get("original"), str):
@@ -22,6 +32,7 @@ class RecipeSummarizationEvaluator:
     """Evaluate simplified recipe text against the original text."""
 
     def __init__(self):
+        """Initialize the evaluator by downloading NLTK data and loading the sentence transformer model."""
         # Fix SSL certificate issue and download cmudict for readability scoring
         ssl._create_default_https_context = ssl._create_unverified_context
         nltk_path = os.path.expanduser("~/nltk_data")
@@ -39,6 +50,11 @@ class RecipeSummarizationEvaluator:
         then computes cosine similarity. A score of 1.0 means identical meaning;
         lower scores indicate semantic drift.
 
+        Args:
+            modelresults (dict): Dictionary with 'original' and 'simplified' text keys.
+
+        Returns:
+            float: Cosine similarity score between 0.0 and 1.0.
         """
         original = modelresults["original"]
         simplified = modelresults["simplified"]
@@ -60,6 +76,12 @@ class RecipeSummarizationEvaluator:
 
         A ratio below 1.0 means the simplified text is shorter. A ratio of 0.5
         means the simplified text is half the length of the original.
+
+        Args:
+            modelresults (dict): Dictionary with 'original' and 'simplified' text keys.
+
+        Returns:
+            float: Ratio of simplified word count to original word count.
         """
         original = modelresults["original"]
         simplified = modelresults["simplified"]
@@ -82,6 +104,12 @@ class RecipeSummarizationEvaluator:
 
         A lower grade level indicates easier readability. Comparing the two scores
         shows whether simplification reduced the reading difficulty.
+
+        Args:
+            modelresults (dict): Dictionary with 'original' and 'simplified' text keys.
+
+        Returns:
+            tuple[float, float]: Flesch-Kincaid grade level for (original, simplified).
         """
         original = modelresults["original"]
         simplified = modelresults["simplified"]
@@ -108,6 +136,11 @@ class RecipeSummarizationEvaluator:
             >= 0.50  Moderate
             <  0.50  Weak
 
+        Args:
+            pairs (list[dict]): List of dicts each with 'original' and 'simplified' text keys.
+
+        Returns:
+            list[dict]: List of result dicts with similarity, compression, readability, overall score, and rating.
         """
         results = []
         for i, pair in enumerate(pairs):

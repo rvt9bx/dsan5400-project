@@ -7,7 +7,17 @@ logger = logging.getLogger(__name__)
 
 
 def parse_url(url):
-    """function to take in a recipe url as a string and return the title, ingredient list, and instruction list"""
+    """Scrape a recipe URL and return a Recipe object.
+
+    Args:
+        url (str): URL of the recipe page to scrape.
+
+    Returns:
+        Recipe: Parsed recipe containing title, ingredients, and instructions.
+
+    Raises:
+        Exception: If the page cannot be scraped or the recipe format is unrecognized.
+    """
 
     # get html
     html_scraper = cloudscraper.create_scraper()

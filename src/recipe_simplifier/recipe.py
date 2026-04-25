@@ -5,16 +5,22 @@ from recipe_simplifier.utils import open_in_browser
 
 
 class Recipe:
-    """add docstring"""
+    """Represents a recipe with a title, ingredient list, and directions text."""
 
     def __init__(self, title, ingredients, instructions):
-        """add docstring"""
+        """Initialize a Recipe instance.
+
+        Args:
+            title (str): Name of the recipe.
+            ingredients (list[str]): List of ingredient strings.
+            instructions (str): Full directions text, either newline- or period-delimited.
+        """
         self.title = title
         self.ingredients = ingredients
         self.instructions = instructions
 
     def print(self):
-        """add docstring"""
+        """Print the recipe title, ingredients, and numbered instructions to the terminal."""
         print(self.title.title())
         print("\nINGREDIENTS:")
         for i in self.ingredients:
@@ -28,7 +34,15 @@ class Recipe:
                 print(f"{i + 1}. {step}")
 
     def display(self, save_path=None):
-        """add docstring"""
+        """Render the recipe as a styled HTML page and open it in the browser.
+
+        Args:
+            save_path (str, optional): File path to save the HTML. If None, a temp file
+                is used and deleted after the user presses Enter.
+
+        Returns:
+            None
+        """
 
         # separate out instructions
         if "\n" in self.instructions:
