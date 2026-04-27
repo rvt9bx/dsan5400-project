@@ -193,8 +193,14 @@ dsan5400-project/
 
 ---
 
+## Data
+
+The dataset used for batch evaluation and hyperparameter tuning is the **RecipeNLG** corpus (~2.2M recipes). Download `full_dataset.csv` from the [RecipeNLG project](https://recipenlg.cs.put.poznan.pl/) (Bień et al., INLG 2020 — [paper](https://aclanthology.org/2020.inlg-1.4.pdf)) and place it at `data/full_dataset.csv`. The `data/` directory is excluded from version control.
+
+---
+
 ## Authors
 
 - Eleanor Byrd
 - Maura Mann
-- Nkemdibe Okweye 
+- Nkemdibe Okweye
