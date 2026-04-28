@@ -118,9 +118,13 @@ INSTRUCTIONS:
 
 ---
 
+## Parser 
+
+The pipeline uses the [recipe-scrapers python package](https://docs.recipe-scrapers.com/). To scrape recipe website HTML and parse. Currently over 600 recipe websites are supported by recipe-scrapers and thus also by our recipe simplifier. View the supported sites [here](https://docs.recipe-scrapers.com/getting-started/supported-sites/). 
+
 ## Summarizer
 
-The summarizer uses the MultiExtractiveSummarizer extractive summarization model from the MultiExtractiveSummarizer python package.
+The summarizer uses the MultiExtractiveSummarizer extractive summarization model from the [MultiExtractiveSummarizer python package](https://pypi.org/project/MultiExtractiveSummarizer/).
 
 Parameters:
 1. **embedding_method** — sbert
